@@ -1,26 +1,27 @@
 {
   "name": "Planum Vita",
-  "short_name": "Planum Vita",
+  "short_name": "PlanumVita",
   "description": "Odak, planlama, sağlık, nefes, günlük ve oyun araçlarını tek yerde birleştiren yaşam yönetimi uygulaması.",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#09090b",
-  "theme_color": "#6366f1",
-  "lang": "tr",
+  "lang": "tr-TR",
   "dir": "ltr",
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
+  ],
+  "supported_languages": [
+    "tr-TR",
+    "en-US"
   ]
 }
