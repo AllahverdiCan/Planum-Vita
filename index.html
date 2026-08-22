@@ -722,5 +722,14 @@ function Jrn({t,cA,jrl,sJrl,ax,st,xp,lv,rT,hs,ts,pl,wc,sAs,cAl,lg,d}){
 
 const root = ReactDOM.createRoot(document.getElementById('root')); root.render(<App />);
 </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/Planum-Vita/sw.js')
+        .then(reg => console.log('Service Worker başarıyla kaydedildi:', reg))
+        .catch(err => console.log('Service Worker kaydı başarısız:', err));
+    });
+  }
+</script>
 </body>
 </html>
