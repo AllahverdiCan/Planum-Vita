@@ -30,6 +30,17 @@
       "purpose": "any maskable"
     }
   ],
+  "screenshots": [
+    {
+      "src": "https://allahverdican.github.io/Planum-Vita/icons/screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Planum Vita Arayüzü"
+    }
+  ],
+  "prefer_related_applications": false,
+  "iarc_rating_id": "urn:iarc:rating:all",
   "supported_languages": [
     "tr-TR",
     "en-US"
