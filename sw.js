@@ -1,36 +1,84 @@
-const CACHE_NAME = 'planum-vita-v1';
+const CACHE_NAME = 'planum-vita-v3';
+const BASE_PATH = '/Planum-Vita/';
 
-self.addEventListener('install', event => {
-  self.skipWaiting();
-});
+const APP_SHELL = [
+  `${BASE_PATH}`,
+  `${BASE_PATH}index.html`,
+  `${BASE_PATH}manifest.webmanifest`
+];
 
-self.addEventListener('activate', event => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.map(k => {
-        if (k !== CACHE_NAME) return caches.delete(k);
-      })
-    )).then(() => self.clients.claim())
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(APP_SHELL))
+      .then(() => self.skipWaiting())
   );
 });
 
-self.addEventListener('fetch', event => {
-  // Sadece GET isteklerini yakala (dışarıya veri gönderen POST isteklerini bozmamak için)
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        // İnternet var, site güncel açıldı. Bu güncel hali arka planda cihaza da kaydet.
-        const responseClone = response.clone();
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseClone);
-        });
-        return response;
-      })
-      .catch(() => {
-        // İnternet yok (veya çöktü). Hemen cihazdaki kayıtlı kopyayı ekrana ver.
-        return caches.match(event.request);
-      })
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) => key !== CACHE_NAME)
+            .map((key) => caches.delete(key))
+        )
+      )
+      .then(() => self.clients.claim())
   );
 });
+
+self.addEventListener('fetch', (event) => {
+  const request = event.request;
+
+  // Sadece GET isteklerini ele al.
+  if (request.method !== 'GET') return;
+
+  // HTTP/HTTPS dışındaki istekleri ele alma.
+  const requestURL = new URL(request.url);
+  if (
+    requestURL.protocol !== 'http:' &&
+    requestURL.protocol !== 'https:'
+  ) {
+    return;
+  }
+
+  event.respondWith(networkFirst(request));
+});
+
+async function networkFirst(request) {
+  const cache = await caches.open(CACHE_NAME);
+
+  try {
+    // Önce internetten güncel içeriği almaya çalış.
+    const response = await fetch(request);
+
+    // Başarısız HTTP cevaplarını cache'e yazma.
+    // Opaque cevapların durum kodu okunamadığı için onlar da cache'lenebilir.
+    if (response.ok || response.type === 'opaque') {
+      await cache.put(request, response.clone());
+    }
+
+    return response;
+  } catch (error) {
+    // İnternet yoksa mevcut cache'i dene.
+    const cached = await cache.match(request);
+
+    if (cached) {
+      return cached;
+    }
+
+    // Sayfa açılışı başarısızsa uygulamanın ana shell'ini kullan.
+    if (request.mode === 'navigate') {
+      const shell = await cache.match(`${BASE_PATH}index.html`);
+
+      if (shell) {
+        return shell;
+      }
+    }
+
+    // Hiçbir şey yoksa gerçek hatayı tarayıcıya bırak.
+    throw error;
+  }
+}
