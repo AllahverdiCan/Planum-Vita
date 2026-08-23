@@ -2710,8 +2710,19 @@ body { font-family: 'Inter', sans-serif; overflow: hidden; background-color: #05
 .bio-wrist-manus { animation: bioWristFlex 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-origin: 48px 52px; transform-box: fill-box; will-change: transform; }
 @keyframes bioThoracicExpansion { 0%, 100% { transform: scale(0.96); opacity: 0.5; } 50% { transform: scale(1.22); opacity: 1; } }
 .bio-thoracic-cage { animation: bioThoracicExpansion 3.5s ease-in-out infinite; transform-origin: 50px 52px; transform-box: fill-box; will-change: transform, opacity; }
-@keyframes bioShoulderScapula { 0% { transform: translate(0, 0) rotate(0deg); } 25% { transform: translate(6px, -6px) rotate(90deg); } 50% { transform: translate(0, -10px) rotate(180deg); } 75% { transform: translate(-6px, -4px) rotate(270deg); } 100% { transform: translate(0, 0) rotate(360deg); } }
-.bio-scapula-orbit { animation: bioShoulderScapula 4s linear infinite; transform-origin: 50px 50px; transform-box: fill-box; will-change: transform; }
+@keyframes bioShoulderScapula {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(1px, 5px) rotate(4deg); }
+  42% { transform: translate(0, 9px) rotate(7deg); }
+  62% { transform: translate(-1px, 4px) rotate(3deg); }
+  82% { transform: translate(0, -2px) rotate(-1deg); }
+}
+.bio-scapula-orbit {
+  animation: bioShoulderScapula 3.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transform-origin: 50px 50px;
+  transform-box: fill-box;
+  will-change: transform;
+}
 @keyframes bioSpineAxialTwist { 0%, 100% { transform: scaleX(1) skewY(0deg); } 30% { transform: scaleX(0.45) skewY(10deg); } 70% { transform: scaleX(0.45) skewY(-10deg); } }
 .bio-vertebra-twist { animation: bioSpineAxialTwist 5s ease-in-out infinite; transform-origin: 50px 50px; transform-box: fill-box; will-change: transform; }
 @keyframes radarSweep { 0% { stroke-dashoffset: 0; opacity: 0.2; } 50% { opacity: 0.8; } 100% { stroke-dashoffset: -30; opacity: 0.2; } }
@@ -5529,7 +5540,7 @@ function App() {
                                 React.createElement("path", { d: "M9.545 15.568V8.432L15.818 12l-6.273 3.568z", fill: "#ff0000" })),
                             dict.footer.youtube),
                         React.createElement("details", { className: "mt-4 text-left max-w-3xl w-full px-4" },
-                            React.createElement("summary", { className: "cursor-pointer text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-zinc-300" }, "A\u00E7\u0131k Kaynak Bildirimi"),
+                            React.createElement("summary", { className: "cursor-pointer text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-zinc-300" }, "Lisans Bilgileri"),
                             React.createElement("div", { className: "mt-3 text-[10px] leading-relaxed text-zinc-500 space-y-2" },
                                 React.createElement("p", null, "Bu uygulama, MIT lisansl\u0131 React ve Phosphor Icons bile\u015Fenlerinden yararlan\u0131r. \u00DCretim CSS'i, MIT lisansl\u0131 Tailwind CSS ile derlenmi\u015Ftir. Kendi uygulama kodun ve i\u00E7eriklerin Planum Vita'ya aittir."),
                                 React.createElement("p", null, "React \u2014 MIT License \u2014 react.dev"),
