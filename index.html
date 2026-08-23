@@ -7,9 +7,9 @@
 <meta name="author" content="ALLAHVERDİ CAN">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
-<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
 <style>
 /*! tailwindcss v4.1.10 | MIT License | https://tailwindcss.com */
@@ -2700,35 +2700,24 @@ body { font-family: 'Inter', sans-serif; overflow: hidden; background-color: #05
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(150,150,150,0.2); border-radius: 10px; }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(150,150,150,0.5); }
-.animate-pulse-slow { animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; animation-play-state: running; will-change: opacity, transform; }
+.animate-pulse-slow { animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 @keyframes pulse { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.03); } }
 .breathe-circle { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
 @keyframes moveEye { 0% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
 @keyframes bioNeckLateral { 0%, 100% { transform: rotate(0deg); } 35% { transform: rotate(-32deg); } 70% { transform: rotate(32deg); } }
-.bio-neck-cranium { animation: bioNeckLateral 5s cubic-bezier(0.45, 0, 0.55, 1) infinite; transform-origin: 50px 58px; transform-box: fill-box; will-change: transform; }
+.bio-neck-cranium { animation: bioNeckLateral 5s cubic-bezier(0.45, 0, 0.55, 1) infinite; transform-origin: 50px 58px; }
 @keyframes bioWristFlex { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-42deg); } }
-.bio-wrist-manus { animation: bioWristFlex 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-origin: 48px 52px; transform-box: fill-box; will-change: transform; }
+.bio-wrist-manus { animation: bioWristFlex 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-origin: 48px 52px; }
 @keyframes bioThoracicExpansion { 0%, 100% { transform: scale(0.96); opacity: 0.5; } 50% { transform: scale(1.22); opacity: 1; } }
-.bio-thoracic-cage { animation: bioThoracicExpansion 3.5s ease-in-out infinite; transform-origin: 50px 52px; transform-box: fill-box; will-change: transform, opacity; }
-@keyframes bioShoulderScapula {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  20% { transform: translate(1px, 5px) rotate(4deg); }
-  42% { transform: translate(0, 9px) rotate(7deg); }
-  62% { transform: translate(-1px, 4px) rotate(3deg); }
-  82% { transform: translate(0, -2px) rotate(-1deg); }
-}
-.bio-scapula-orbit {
-  animation: bioShoulderScapula 3.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  transform-origin: 50px 50px;
-  transform-box: fill-box;
-  will-change: transform;
-}
+.bio-thoracic-cage { animation: bioThoracicExpansion 3.5s ease-in-out infinite; transform-origin: 50px 52px; }
+@keyframes bioShoulderScapula { 0% { transform: translate(0, 0) rotate(0deg); } 25% { transform: translate(6px, -6px) rotate(90deg); } 50% { transform: translate(0, -10px) rotate(180deg); } 75% { transform: translate(-6px, -4px) rotate(270deg); } 100% { transform: translate(0, 0) rotate(360deg); } }
+.bio-scapula-orbit { animation: bioShoulderScapula 4s linear infinite; transform-origin: 50px 50px; }
 @keyframes bioSpineAxialTwist { 0%, 100% { transform: scaleX(1) skewY(0deg); } 30% { transform: scaleX(0.45) skewY(10deg); } 70% { transform: scaleX(0.45) skewY(-10deg); } }
-.bio-vertebra-twist { animation: bioSpineAxialTwist 5s ease-in-out infinite; transform-origin: 50px 50px; transform-box: fill-box; will-change: transform; }
+.bio-vertebra-twist { animation: bioSpineAxialTwist 5s ease-in-out infinite; transform-origin: 50px 50px; }
 @keyframes radarSweep { 0% { stroke-dashoffset: 0; opacity: 0.2; } 50% { opacity: 0.8; } 100% { stroke-dashoffset: -30; opacity: 0.2; } }
-.bio-radar-line { stroke-dasharray: 4 4; animation: radarSweep 2.5s linear infinite; animation-play-state: running; will-change: stroke-dashoffset, opacity; }
+.bio-radar-line { stroke-dasharray: 4 4; animation: radarSweep 2.5s linear infinite; }
 @keyframes muscleTensionGlow { 0%, 100% { stroke: #10b981; filter: drop-shadow(0 0 2px rgba(16,185,129,0.4)); } 50% { stroke: #34d399; filter: drop-shadow(0 0 8px rgba(52,211,153,0.9)); } }
-.bio-muscle-active { animation: muscleTensionGlow 2.5s ease-in-out infinite; animation-play-state: running; will-change: stroke, filter; }
+.bio-muscle-active { animation: muscleTensionGlow 2.5s ease-in-out infinite; }
 .about-section { text-align: center; padding: 24px 20px; font-family: inherit; color: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
 .about-section h3 { margin-bottom: 4px; font-size: 1.2rem; font-weight: 700; }
 .about-section .copyright { font-size: 0.9rem; font-weight: 600; opacity: 0.9; margin-bottom: 6px; }
@@ -4809,6 +4798,9 @@ body { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: opt
 }
 
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
 </style>
 
 <style id="planum-vita-motion">
@@ -4855,6 +4847,14 @@ body { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: opt
     #root, #root > div { max-width: 100vw; overflow: hidden; }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 </style>
 </head>
 <!-- Planum Vita production build: runtime styling/compiler dependencies removed. -->
@@ -5536,13 +5536,13 @@ function App() {
                         React.createElement("p", { className: "subtitle" }, dict.footer.subtitle),
                         React.createElement("a", { href: "https://www.youtube.com/@ALLAHVERD\u0130CAN", target: "_blank", rel: "noopener noreferrer", className: "youtube-btn", "aria-label": dict.footer.youtube, title: dict.footer.youtube },
                             React.createElement("svg", { className: "yt-icon", viewBox: "0 0 24 24", width: "20", height: "20", "aria-hidden": "true", focusable: "false" },
-                                React.createElement("path", { d: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z", fill: "currentColor" }),
+                                React.createElement("path", { d: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z", fill: "#ffffff" }),
                                 React.createElement("path", { d: "M9.545 15.568V8.432L15.818 12l-6.273 3.568z", fill: "#ff0000" })),
                             dict.footer.youtube),
                         React.createElement("details", { className: "mt-4 text-left max-w-3xl w-full px-4" },
                             React.createElement("summary", { className: "cursor-pointer text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-zinc-300" }, "Lisans Bilgileri"),
                             React.createElement("div", { className: "mt-3 text-[10px] leading-relaxed text-zinc-500 space-y-2" },
-                                React.createElement("p", null, "Bu uygulama, MIT lisansl\u0131 React ve Phosphor Icons bile\u015Fenlerinden yararlan\u0131r. \u00DCretim CSS'i, MIT lisansl\u0131 Tailwind CSS ile derlenmi\u015Ftir. Kendi uygulama kodun ve i\u00E7eriklerin Planum Vita'ya aittir."),
+                                React.createElement("p", null, "Bu uygulama, MIT lisansl\u0131 React ve Phosphor Icons bile\u015Fenlerinden yararlan\u0131r. \u00DCretim CSS'i, MIT lisansl\u0131 Tailwind CSS ile derlenmi\u015Ftir. Planum Vita'nın özgün uygulama kodu ve içerikleri Planum Vita'ya aittir."),
                                 React.createElement("p", null, "React \u2014 MIT License \u2014 react.dev"),
                                 React.createElement("p", null, "Phosphor Icons \u2014 MIT License \u2014 phosphoricons.com"),
                                 React.createElement("p", null, "Tailwind CSS \u2014 MIT License \u2014 tailwindcss.com"),
@@ -7440,7 +7440,7 @@ root.render(React.createElement(App, null));
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/Planum-Vita/sw.js', { scope: '/Planum-Vita/' })
+      navigator.serviceWorker.register('/Planum-Vita/sw.js')
         .then(reg => console.log('Service Worker başarıyla kaydedildi:', reg))
         .catch(err => console.log('Service Worker kaydı başarısız:', err));
     });
