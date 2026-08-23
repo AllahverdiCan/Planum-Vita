@@ -2700,24 +2700,24 @@ body { font-family: 'Inter', sans-serif; overflow: hidden; background-color: #05
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(150,150,150,0.2); border-radius: 10px; }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(150,150,150,0.5); }
-.animate-pulse-slow { animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.animate-pulse-slow { animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; animation-play-state: running; will-change: opacity, transform; }
 @keyframes pulse { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.03); } }
 .breathe-circle { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
 @keyframes moveEye { 0% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
 @keyframes bioNeckLateral { 0%, 100% { transform: rotate(0deg); } 35% { transform: rotate(-32deg); } 70% { transform: rotate(32deg); } }
-.bio-neck-cranium { animation: bioNeckLateral 5s cubic-bezier(0.45, 0, 0.55, 1) infinite; transform-origin: 50px 58px; }
+.bio-neck-cranium { animation: bioNeckLateral 5s cubic-bezier(0.45, 0, 0.55, 1) infinite; transform-origin: 50px 58px; transform-box: fill-box; will-change: transform; }
 @keyframes bioWristFlex { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-42deg); } }
-.bio-wrist-manus { animation: bioWristFlex 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-origin: 48px 52px; }
+.bio-wrist-manus { animation: bioWristFlex 3s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-origin: 48px 52px; transform-box: fill-box; will-change: transform; }
 @keyframes bioThoracicExpansion { 0%, 100% { transform: scale(0.96); opacity: 0.5; } 50% { transform: scale(1.22); opacity: 1; } }
-.bio-thoracic-cage { animation: bioThoracicExpansion 3.5s ease-in-out infinite; transform-origin: 50px 52px; }
+.bio-thoracic-cage { animation: bioThoracicExpansion 3.5s ease-in-out infinite; transform-origin: 50px 52px; transform-box: fill-box; will-change: transform, opacity; }
 @keyframes bioShoulderScapula { 0% { transform: translate(0, 0) rotate(0deg); } 25% { transform: translate(6px, -6px) rotate(90deg); } 50% { transform: translate(0, -10px) rotate(180deg); } 75% { transform: translate(-6px, -4px) rotate(270deg); } 100% { transform: translate(0, 0) rotate(360deg); } }
-.bio-scapula-orbit { animation: bioShoulderScapula 4s linear infinite; transform-origin: 50px 50px; }
+.bio-scapula-orbit { animation: bioShoulderScapula 4s linear infinite; transform-origin: 50px 50px; transform-box: fill-box; will-change: transform; }
 @keyframes bioSpineAxialTwist { 0%, 100% { transform: scaleX(1) skewY(0deg); } 30% { transform: scaleX(0.45) skewY(10deg); } 70% { transform: scaleX(0.45) skewY(-10deg); } }
-.bio-vertebra-twist { animation: bioSpineAxialTwist 5s ease-in-out infinite; transform-origin: 50px 50px; }
+.bio-vertebra-twist { animation: bioSpineAxialTwist 5s ease-in-out infinite; transform-origin: 50px 50px; transform-box: fill-box; will-change: transform; }
 @keyframes radarSweep { 0% { stroke-dashoffset: 0; opacity: 0.2; } 50% { opacity: 0.8; } 100% { stroke-dashoffset: -30; opacity: 0.2; } }
-.bio-radar-line { stroke-dasharray: 4 4; animation: radarSweep 2.5s linear infinite; }
+.bio-radar-line { stroke-dasharray: 4 4; animation: radarSweep 2.5s linear infinite; animation-play-state: running; will-change: stroke-dashoffset, opacity; }
 @keyframes muscleTensionGlow { 0%, 100% { stroke: #10b981; filter: drop-shadow(0 0 2px rgba(16,185,129,0.4)); } 50% { stroke: #34d399; filter: drop-shadow(0 0 8px rgba(52,211,153,0.9)); } }
-.bio-muscle-active { animation: muscleTensionGlow 2.5s ease-in-out infinite; }
+.bio-muscle-active { animation: muscleTensionGlow 2.5s ease-in-out infinite; animation-play-state: running; will-change: stroke, filter; }
 .about-section { text-align: center; padding: 24px 20px; font-family: inherit; color: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
 .about-section h3 { margin-bottom: 4px; font-size: 1.2rem; font-weight: 700; }
 .about-section .copyright { font-size: 0.9rem; font-weight: 600; opacity: 0.9; margin-bottom: 6px; }
@@ -4798,9 +4798,6 @@ body { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: opt
 }
 
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
-}
 </style>
 
 <style id="planum-vita-motion">
@@ -4847,14 +4844,6 @@ body { font-size: 16px; -webkit-font-smoothing: antialiased; text-rendering: opt
     #root, #root > div { max-width: 100vw; overflow: hidden; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
 </style>
 </head>
 <!-- Planum Vita production build: runtime styling/compiler dependencies removed. -->
