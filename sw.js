@@ -1,4 +1,4 @@
-const CACHE_NAME = 'planum-vita-v4';
+const CACHE_NAME = 'planum-vita-v5';
 const BASE_PATH = '/Planum-Vita/';
 
 const APP_SHELL = [
