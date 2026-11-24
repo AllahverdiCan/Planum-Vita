@@ -1,4 +1,4 @@
-const CACHE_NAME = 'planum-vita-v3';
+const CACHE_NAME = 'planum-vita-v4';
 const BASE_PATH = '/Planum-Vita/';
 
 const APP_SHELL = [
@@ -7,12 +7,26 @@ const APP_SHELL = [
   `${BASE_PATH}manifest.webmanifest`
 ];
 
+const EXTERNAL_ASSETS = [
+  'https://unpkg.com/@phosphor-icons/web',
+  'https://unpkg.com/react@18/umd/react.production.min.js',
+  'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js'
+];
+
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.addAll(APP_SHELL);
+    await Promise.allSettled(
+      EXTERNAL_ASSETS.map(async (url) => {
+        const res = await fetch(url);
+        if (res.ok || res.type === 'opaque') {
+          await cache.put(url, res);
+        }
+      })
+    );
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', (event) => {
@@ -31,11 +45,9 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const request = event.request;
-
   if (request.method !== 'GET') return;
 
   const requestURL = new URL(request.url);
-
   if (
     requestURL.protocol !== 'http:' &&
     requestURL.protocol !== 'https:'
@@ -51,22 +63,18 @@ async function networkFirst(request) {
 
   try {
     const response = await fetch(request);
-
     if (response.ok || response.type === 'opaque') {
       await cache.put(request, response.clone());
     }
-
     return response;
   } catch (error) {
     const cached = await cache.match(request);
-
     if (cached) {
       return cached;
     }
 
     if (request.mode === 'navigate') {
       const shell = await cache.match(`${BASE_PATH}index.html`);
-
       if (shell) {
         return shell;
       }
