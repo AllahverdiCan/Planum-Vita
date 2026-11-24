@@ -1,6 +1,6 @@
 
 const CACHE_PREFIX = 'planum-vita-';
-const CACHE_NAME = `${CACHE_PREFIX}v6`;
+const CACHE_NAME = `${CACHE_PREFIX}v7`;
 const BASE_PATH = '/Planum-Vita/';
 const MAX_CACHE_ENTRIES = 50;
 
@@ -18,6 +18,15 @@ const EXTERNAL_ASSETS = [
 
 const CACHEABLE_EXTENSIONS =
   /\.(?:html|js|css|webmanifest|png|jpg|jpeg|svg|webp|ico|woff2?)$/i;
+
+function isPhosphorAsset(url) {
+  return (
+    url.origin === 'https://unpkg.com' &&
+    /^\/@phosphor-icons\/web(?:@[^/]+)?(?:\/|$)/.test(
+      url.pathname
+    )
+  );
+}
 
 function isCacheableRequest(request) {
   const url = new URL(request.url);
@@ -41,13 +50,24 @@ function isCacheableRequest(request) {
     );
   }
 
-  return EXTERNAL_ASSETS.some(asset => {
+  const isExternalAsset = EXTERNAL_ASSETS.some(asset => {
     const allowed = new URL(asset);
+
     return (
       url.origin === allowed.origin &&
       url.href === allowed.href
     );
   });
+
+  return isExternalAsset || isPhosphorAsset(url);
+}
+
+function isProtectedCacheEntry(request, protectedUrls) {
+  if (protectedUrls.has(request.url)) {
+    return true;
+  }
+
+  return isPhosphorAsset(new URL(request.url));
 }
 
 async function fetchExternalAsset(url) {
@@ -56,12 +76,10 @@ async function fetchExternalAsset(url) {
       mode: 'cors'
     });
 
-    if (response.ok) {
-      return response;
-    }
-  } catch (_) {}
-
-  return null;
+    return response.ok ? response : null;
+  } catch (_) {
+    return null;
+  }
 }
 
 async function trimCache(cacheName, maxItems) {
@@ -76,13 +94,12 @@ async function trimCache(cacheName, maxItems) {
   ]);
 
   const removable = keys.filter(
-    request => !protectedUrls.has(request.url)
+    request => !isProtectedCacheEntry(request, protectedUrls)
   );
 
-  const protectedCount = keys.length - removable.length;
   const allowedRemovable = Math.max(
     0,
-    maxItems - protectedCount
+    maxItems - (keys.length - removable.length)
   );
 
   const excess = removable.length - allowedRemovable;
@@ -90,6 +107,13 @@ async function trimCache(cacheName, maxItems) {
   for (let i = 0; i < excess; i++) {
     await cache.delete(removable[i]);
   }
+}
+
+async function storeInCache(cache, request, response) {
+  try {
+    await cache.put(request, response.clone());
+    await trimCache(CACHE_NAME, MAX_CACHE_ENTRIES);
+  } catch (_) {}
 }
 
 self.addEventListener('install', event => {
@@ -140,16 +164,26 @@ self.addEventListener('fetch', event => {
 
 async function networkFirst(request) {
   const cache = await caches.open(CACHE_NAME);
-  const url = new URL(request.url);
-  const isExternal = url.origin !== self.location.origin;
 
   try {
     const response = await fetch(request);
 
     if (
-      request.mode === 'navigate' &&
-      !response.ok
+      response.ok ||
+      (
+        new URL(request.url).origin !== self.location.origin &&
+        response.type === 'opaque'
+      )
     ) {
+      await storeInCache(cache, request, response);
+      return response;
+    }
+
+    const cached = await cache.match(request);
+
+    if (cached) return cached;
+
+    if (request.mode === 'navigate') {
       const shell = await cache.match(
         `${BASE_PATH}index.html`
       );
@@ -157,22 +191,11 @@ async function networkFirst(request) {
       if (shell) return shell;
     }
 
-    const shouldCache =
-      response.ok ||
-      (isExternal && response.type === 'opaque');
-
-    if (shouldCache) {
-      await cache.put(request, response.clone());
-      await trimCache(CACHE_NAME, MAX_CACHE_ENTRIES);
-    }
-
     return response;
   } catch (_) {
     const cached = await cache.match(request);
 
-    if (cached) {
-      return cached;
-    }
+    if (cached) return cached;
 
     if (request.mode === 'navigate') {
       const shell = await cache.match(
